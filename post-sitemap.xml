@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://yoursite-url/2020/07/14/vim%E5%AE%89%E8%A3%85jedi-vim%E6%8F%92%E4%BB%B6/</loc>
+        <lastmod>2020-07-14T07:54:17.778Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yoursite-url/2020/07/14/Docker%E6%90%AD%E5%BB%BAcalibre-web%E6%9C%8D%E5%8A%A1/</loc>
         <lastmod>2020-07-14T05:53:42.737Z</lastmod>
         <changefreq>weekly</changefreq>
