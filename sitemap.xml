@@ -3,17 +3,17 @@
 
     <sitemap>
         <loc>http://yoursite-url/post-sitemap.xml</loc>
-        <lastmod>2020-07-14T02:11:08.498Z</lastmod>
+        <lastmod>2020-07-14T05:09:42.210Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://yoursite-url/page-sitemap.xml</loc>
-        <lastmod>2020-07-14T02:11:08.547Z</lastmod>
+        <lastmod>2020-07-14T03:15:32.149Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://yoursite-url/tag-sitemap.xml</loc>
-        <lastmod>2020-07-14T02:11:08.498Z</lastmod>
+        <lastmod>2020-07-14T05:09:42.210Z</lastmod>
     </sitemap>
 
 </sitemapindex>

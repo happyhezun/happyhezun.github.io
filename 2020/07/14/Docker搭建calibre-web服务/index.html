@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Beantech | 豆科技
+          Docker搭建calibre-web服务 - Beantech | 小虾
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/archives/2017/">
+    <link rel="canonical" href="http://yoursite-url/2020/07/14/Docker搭建calibre-web服务/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/undefined')
-            /*page*/
+            background-image: url('img/header_img/tag-bg.png')
+            /*post*/
         
     }
     
@@ -87,10 +87,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>Your Title</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">This is hexo theme</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#折腾" title="折腾">折腾</a>
+                            
+                        </div>
+                        <h1>Docker搭建calibre-web服务</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 小虾 on
+                            2020-07-14
+                        </span>
                     </div>
                 
 
@@ -113,7 +121,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Your Title</a>
+            <a class="navbar-brand" href="/">小虾笔记</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -136,6 +144,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -144,13 +159,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -193,188 +201,167 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <h1><span id="calibre-web使用docker部署">calibre-web使用Docker部署</span></h1>
+<h2><span id="create-the-container">Create the container</span></h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker create --name=calibre-web --restart=always \</span><br><span class="line">-v /volume1/books/calibre:/books \</span><br><span class="line">-v /volume1/docker/apps/calibre-web/config:/calibre-web/config \</span><br><span class="line">-e USE_CONFIG_DIR=true \</span><br><span class="line">-e SET_CONTAINER_TIMEZONE=true \</span><br><span class="line">-e CONTAINER_TIMEZONE=Europe/Vienna \</span><br><span class="line">-e PGID=65539 -e PUID=1029 \</span><br><span class="line">-p 8083:8083 \</span><br><span class="line">technosoft2000/calibre-web</span><br></pre></td></tr></table></figure>
+<h2><span id="start-the-container">Start the container</span></h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start calibre-web</span><br></pre></td></tr></table></figure>
+<h2><span id="additional">Additional</span></h2>
+<p>Shell access whilst the container is running: <code>docker exec -it calibre-web /bin/bash</code></p>
+<p>Upgrade to the latest version of Calibre Web: <code>docker restart calibre-web</code></p>
+<p>To monitor the logs of the container in realtime: <code>docker logs -f calibre-web</code></p>
+<p>To monitor the logs of Calibre Web: <code>docker exec -it calibre-web tail -f /calibre-web/app/calibre-web.log</code></p>
+<h2><span id="遇到的问题">遇到的问题：</span></h2>
+<ol>
+<li>容器启动后下载文件kindlegen_linux_2.6_i386_v2_9.tar.gz太慢导致最后会失败：<br>
+解决方法：直接使用迅雷下载好文件:<a href="http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz%EF%BC%8C%E7%84%B6%E5%90%8E%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%B9%B6%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E8%B0%83%E6%95%B4/etc/hosts%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz，然后启动容器并进入容器调整/etc/hosts文件</a></li>
+<li>目录权限问题导致app.db文件无法生成：<br>
+解决方法：容器创建以后，启动容器并进入容器执行赋权限命令：chown calibre.calibre /book/ -R</li>
+</ol>
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
-                    <span class="tag-text">2017</span>
-                </span>
-                <ul>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    03-18
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/2017/03/18/hexo-theme-beantech/" style="color: #0085a1">
-                        <span>
-                            [Hexo] Theme BeanTech
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/07/14/企业微信发送消息监控告警/" data-toggle="tooltip" data-placement="top" title="企业微信发送消息监控告警">&larr; Previous Post</a>
+                        </li>
+                    
+                    
                 </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
             </div>
             
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#折腾" title="折腾">折腾</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://beantech.org" target="_blank">Bean Tech</a></li>
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It Helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
         </div>
     </div>
-</div>
+</article>
 
-                <!-- 如果开启评论功能 -->
-                
-            </div>
 
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
 
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-        
-            
-        
-    </div>
-</section>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2020/07/14/Docker搭建calibre-web服务/";
+    var disqus_url = "http://yoursite-url/2020/07/14/Docker搭建calibre-web服务/";
 
-        
-            <img id = "avatar_pic" src="/img/ironman-draw.png" />
-        
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
 
-        
-            <p>Hi, i&#39;m John Doe</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/YenYuHsuan">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-                <li>
-                    <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2017/03/18/hexo-theme-beantech/">[Hexo] Theme BeanTech</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        <!-- Friends Blog -->
-
-<h5>FRIENDS</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="http://beantech.org" target="_blank">Bean Tech</a></li>
-    
-        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
-    
-        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-    
-        <li><a href="#" target="_blank">It Helps SEO</a></li>
-    
-</ul>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
@@ -392,7 +379,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                        <a target="_blank" href="https://www.facebook.com/none">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -403,7 +390,7 @@
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/YenYuHsuan">
+                        <a target="_blank"  href="https://github.com/happyhezun">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -414,7 +401,7 @@
 
                 
                     <li>
-                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                        <a target="_blank"  href="https://www.linkedin.com/in/none">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
@@ -425,7 +412,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; John Doe 2020 
+                    Copyright &copy; 小虾 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
